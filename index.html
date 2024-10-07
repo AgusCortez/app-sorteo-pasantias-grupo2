@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App sorteo UnderCode 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+    <header class="">
+        <p>Bienvenidos a la Sección de Sorteos de UnderCode</p>
+        <h1>" App Sorteos de Eventos 2"</h1>
+        <img src="" >
+    </header>
+
+    <div id="seccion-nombre" class="">
+        <h1>Nombre del Evento</h1>
+        <form>
+            <br>
+            <input type="text" id="nombre-evento" placeholder="Escribe el nombre del evento">
+        </form>
+        <br>
+        <button id="btn-ingresar-evento">Ingresar Evento</button>
+    </div>
+
+    <div id="qr" class="">
+        <button>Abrir QR</button>
+        <div style="display: none;">
+            <div>
+                <h3>Escanea el QR para participar del evento de hoy</h3>
+                <br>
+                <div></div> <!-- Contenedor para el QR -->
+                <button>Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="lista" class="">
+        <p>EVENTO</p>
+        <h4>Lista de Participantes</h4>
+        <ul id="lista-participantes"></ul> <!-- Lista de participantes -->
+    </div>
+
+    <div id="premios" class="">
+        <h5>Cantidad Ganadores</h5>  
+        <input type="number" placeholder="N°" >   
+        <div class="">
+            <h3>Premios</h3>
+            <label>1° Premio</label>
+            <input>           
+        </div>
+        <div class="">
+            <h3>Patrocinadores</h3>
+            <label>Patrocinador 1° </label>
+            <input type="text">      
+        </div>
+    </div>
+
+    <div id="seccion-participantes" class="">    
+        <h3>Registro de Participantes Manual</h3>
+        <input type="text" id="nombre-participante" placeholder="Nombre y Apellido">
+        <input type="text" id="dni" placeholder="DNI">
+        <button id="btn-agregar-participante">Agregar Participante</button>
+    </div>
+
+    <br>
+
+    <div id="btn-sorteo" class="">
+        <button>Realizar Sorteo</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
