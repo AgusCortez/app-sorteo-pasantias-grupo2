@@ -7,91 +7,83 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="index.css">
-
 </head>
 
 <body>
     <div class="container-principal">
-    <header class="titulo">
-        <p>Bienvenidos a la Sección de Sorteos de UnderCode</p>
-        <img style="width: 200px;" src="./Img/logo1.png" >
-        <h1>"App Sorteos de Eventos 2"</h1>
-       
-    </header>
+        <header class="titulo">
+            <h3>Bienvenidos a la Sección de Sorteos de UnderCode</h3>
+            <img style="width: 200px;" src="./Img/logo1.png" alt="Logo UnderCode">
+            <h1>App Sorteos de Eventos 2</h1>
+        </header>
 
-    <div id="seccion-nombre" class="container-secundario">
-        <h1 class="titulo">Nombre del Evento</h1>
-        <form>
-            
-            <input class="input" type="text" id="nombre-evento" placeholder="Escribe el nombre del evento">
-        </form>
-       
-        <button class="boton" id="btn-ingresar-evento">Ingresar Evento</button>
-    </div>
+        <div id="seccion-nombre" class="container-secundario">
+            <h1 class="titulo">Nombre del Evento</h1>
+            <form id="evento-form">
+                <input class="input" type="text" id="nombre-evento" placeholder="Escribe el nombre del evento">
+                <button class="boton" type="submit" id="btn-ingresar-evento">Ingresar Evento</button>
+            </form>
+        </div>
 
-    <div id="qr" class="container-secundario">
-        <button class="boton">Abrir QR</button>
-        <div style="display: none;">
-            <div>
-                <h3>Escanea el QR para participar del evento de hoy</h3>
-                
-                <div></div> <!-- Contenedor para el QR -->
-                <button class="boton">Cerrar</button>
+        <div id="qr-code-container" class="container-secundario">
+            <button class="boton" id="abrir-qr">Abrir QR</button>
+            <div id="overlay-qr" class="overlay" style="display: none;">
+                <div class="overlay-content">
+                    <h3>Escanea el QR para participar del evento de hoy</h3>
+                    <div id="qr-code"></div> <!-- Contenedor para el QR usando div -->
+                    <button class="boton" id="cerrar-qr">❌</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="lista" class="container-secundario">
-        <h3>Evento</h3>
-        <h4>Lista de Participantes</h4>
-        <ul class="tabla" id="lista-participantes">
-            <li>Juan Perez</li>
-            <li>Carlos Gimenez</li>
-            <li>Jorge Lopez</li>
-        </ul> 
         
-    </div>
+        
 
-    <div id="premios" class="container-secundario">
-        <h3>Cantidad Ganadores</h3>  
-        <select class="select" name="cantidadGanadores" id="">
-            <option value=""></option>
-            <option value="1">1</option>
-            <option value="1">2</option>
-            <option value="1">3</option>
-            <option value="1">4</option>
-            <option value="1">5</option>
-        </select>   
-        <div class="">
-            <h3>Premios</h3>
-            <label>1° Premio</label>
-            <input>           
+        <div id="lista" class="container-secundario">
+            <h3 id="evento-title">Evento</h3>
+            <h4>Lista de Participantes</h4>
+            <ul class="tabla" >
+                <li id="lista-participantes"></li>
+            </ul> 
         </div>
-        <div class="">
-            <h3>Patrocinadores</h3>
-            <label>Patrocinador 1° </label>
-            <input type="text">      
-            <br><br>
+
+        <div id="premios" class="container-secundario">
+            
+            <div class="cant-ganadores">
+                <h3>Cantidad Ganadores</h3>  
+                <input class="input-cantidad-ganadores" type="number" name="cantidadGanadores" id="cantidad-ganadores" min="1" value="1">    
+            </div>
+            
+            <div class="premios-patrocinadores">
+                <div id="premios-container"></div>
+                <div id="patrocinadores-container"></div>
+            </div>
+            
+        </div>
+
+        <div id="seccion-participantes" class="container-secundario">    
+            <h3>Registro de Participantes Manual</h3>
+            <input class="input" type="text" id="nombre-participante" placeholder="Nombre y Apellido">
+            <br>
+            <input class="input" type="number" id="dni" placeholder="DNI">
+            <button class="boton" id="btn-agregar-participante">Agregar Participante</button>
+        </div>
+
+        <br>
+
+        <div id="btn-sorteo" class="btn-sorteo">
+            <button>Realizar Sorteo</button>
         </div>
     </div>
 
-    <div id="seccion-participantes" class="container-secundario">    
-        <h3>Registro de Participantes Manual</h3>
-        <input class="input" type="text" id="nombre-participante" placeholder="Nombre y Apellido">
-        <input class="input" type="text" id="dni" placeholder="DNI">
-        <button class="boton" id="btn-agregar-participante">Agregar Participante</button>
-    </div>
-
-    <br>
-
-    <div id="btn-sorteo" class="">
-        <button class="boton">Realizar Sorteo</button>
-    </div>
-</div>
-    <footer>
+    <footer style="text-align: center;">
         <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://rawgit.com/davidshimjs/qrcodejs/master/qrcode.min.js"></script>
+<script src="index.js"></script> <!-- Tu archivo JavaScript -->
+
+    
 </body>
 </html>
