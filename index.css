@@ -5,20 +5,33 @@ body {
     font-family: 'Courier New', Courier, monospace;
   }
     
-   
+ 
+
+
+
+
+
+
+
+/* PANTALLA GRANDE */
+@media (min-width: 1000px)  {
+
+
+
+
+      
   
    .container-principal{
     margin: auto;
-    background-color: white;
     align-items: center;
     padding: 20px;
     border-radius: 10px;
-    width: 600px;
+    width: 70%;
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
-    box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.33);
    }
+
+
    .container-secundario{
     display: flex;
     background-color: white;
@@ -34,26 +47,54 @@ body {
    }
    .titulo{
   
-    display: flex;
+    display: block;
     flex-direction: column;
     align-items: center;
-   
     
    }
+
+   .titulo h3,
+   .titulo h1 {
+    font-size: 1.3rem;
+    text-align: center;
+   }
+
+
+   .titulo img {
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 auto;
+    justify-content: center;
+    display: block;
+   }
   
+   
    .boton{
     padding: 5px;
     margin: 10px;
+    background-color: #c7e7ad;
+    font-size: 1rem;
     border-radius: 6px;
     font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
    }
+
+   .boton:hover {
+    background-color: #9dff4d;
+   }
+
+
+
   
    .input{
     
     font-family: 'Courier New', Courier, monospace;
     display: flex;
-    margin: 5px;
-    width: 97%;
+    margin-top: 15px;
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+    
    }
   
    .select{
@@ -61,10 +102,206 @@ body {
     font-family: 'Courier New', Courier, monospace;
    }
   
-  .tabla{
-    border: black solid 1px;
+   .tabla {
     padding-left: 25px;
     width: 92%;
     padding-top: 5px;
     padding-bottom: 5px;
-  }
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+}
+
+#lista-participantes {
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex;
+}
+
+#lista-participantes li {
+    margin-right: 10px; 
+    margin-bottom: 5px;
+    padding: 5px; 
+    border: 1px solid gray; 
+    border-radius: 5px; 
+}
+
+#lista-participantes button {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    color: red; /* Color rojo para el icono */
+    font-size: 16px; /* Tamaño del texto */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    margin-left: 5px; /* Espacio a la izquierda del botón */
+    transition: transform 0.2s; /* Transición suave para el efecto al pasar el ratón */
+}
+
+#lista-participantes button:hover {
+    transform: scale(1.2); /* Aumenta el tamaño al pasar el ratón */
+}
+
+
+
+
+  .container-secundario {
+    display: block;
+    background-color: white;
+    width: 98%;
+    text-align: center;
+    margin: 7px auto;
+    justify-content: center; 
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.33);
+}
+
+.cant-ganadores {
+    text-align: center;
+}
+
+.input-cantidad-ganadores {
+    width: 10%;
+    position: relative;
+    top: -15px;
+}
+
+.premios-patrocinadores {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%;
+    margin-top: 10px;
+}
+
+#premios-container {
+    width: 20%; 
+    margin: 0 auto;
+    padding: 10px; 
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    
+}
+
+#patrocinadores-container {
+    padding: 20px; 
+    border-radius: 5px; 
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+
+    
+}
+
+
+
+
+.btn-sorteo button{
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 10px;
+    background-color: #4d871e;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+.btn-sorteo button:hover {
+    background-color: #377703;
+}
+
+
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    z-index: 1000; 
+}
+
+.overlay-content {
+    background: white; 
+    padding: 20px;
+    border-radius: 8px; 
+    text-align: center;
+    position: relative;
+}
+
+.overlay-content h3 {
+    font-weight: 100;
+    width: 50%;
+    margin: 0 auto;
+}
+
+#qr-code img{
+    text-align: center;
+    margin: 2rem auto;
+    display: block;
+    justify-content: center;
+
+}
+
+#cerrar-qr {
+    position: absolute;
+    top: -10px;
+    right: 0px;
+    background-color: transparent; 
+    border: none; 
+    color: red; 
+    font-size: 26px; 
+    cursor: pointer; 
+}
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* CELULAR */
+@media (max-width: 1000px)  {
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* TABLET */
+@media (min-width: 501px) and (max-width: 1000px) {
+
+
+
+}
+
+
+
+
