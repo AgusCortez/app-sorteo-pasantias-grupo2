@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Variables globales para almacenar premios y patrocinadores dinámicos
     var premiosInputs = [];
     var patrocinadoresInputs = [];
+    var participantes = [];
 
     // Llamar a la función para actualizar premios y patrocinadores al cargar la página
     actualizarPremiosYPatrocinadores();
@@ -21,6 +22,47 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-agregar-participante').addEventListener('click', function(event) {
         event.preventDefault();
         agregarParticipanteManual();
+    });
+
+    // Agregar el listener al botón con el id 'btn-realizar-sorteo'
+    document.getElementById('btn-realizar-sorteo').addEventListener('click', function() {
+        console.log("Botón de sorteo presionado");
+        realizarSorteo();
+    });
+
+    // Cerrar el pop-up
+    document.getElementById('cerrar-popup').addEventListener('click', function() {
+        document.getElementById('resultado-sorteo').style.display = 'none';
+    });
+
+    // Manejar el botón de generación del código QR
+    document.getElementById('abrir-qr').addEventListener('click', function() {
+        var evento = document.getElementById('nombre-evento').value;  // Obtener nombre del evento
+        if (evento) {
+            // Usar la versión moderna para generar el QR
+            QRCode.toDataURL('http://127.0.0.1:5500/Client/formulario.html', {
+                errorCorrectionLevel: 'H',
+                type: 'image/png',
+                width: 256
+            }, function (err, url) {
+                if (err) {
+                    console.error('Error al generar el QR:', err);
+                    return;
+                }
+                // Insertar la imagen QR en el contenedor
+                document.getElementById('qr-code').innerHTML = '<img src="' + url + '" alt="QR Code">';
+            });
+
+            // Mostrar el overlay
+            document.getElementById('overlay-qr').style.display = 'flex';
+        } else {
+            alert('Por favor ingrese el nombre del evento');
+        }
+    });
+
+    // Botón para cerrar el pop-up del QR
+    document.getElementById('cerrar-popup-qr').addEventListener('click', function() {
+        document.getElementById('overlay-qr').style.display = 'none'; // Cerrar el pop-up QR
     });
 
     // Función para agregar nombre del evento
@@ -45,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         patrocinadoresInputs = [];
 
         for (var i = 1; i <= cantidad; i++) {
+            // Crear campo de premio
             var premioLabel = document.createElement('label');
             premioLabel.textContent = i + "° Premio";
             var premioInput = document.createElement('input');
@@ -53,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
             premiosContainer.appendChild(premioLabel);
             premiosContainer.appendChild(premioInput);
 
+            // Crear campo de patrocinador
             var patrocinadorLabel = document.createElement('label');
             patrocinadorLabel.textContent = "Patrocinador " + i + "°";
             var patrocinadorInput = document.createElement('input');
@@ -60,88 +104,92 @@ document.addEventListener('DOMContentLoaded', function() {
             patrocinadoresInputs.push(patrocinadorInput);
             patrocinadoresContainer.appendChild(patrocinadorLabel);
             patrocinadoresContainer.appendChild(patrocinadorInput);
-
-            patrocinadoresContainer.appendChild(document.createElement('br'));
-            patrocinadoresContainer.appendChild(document.createElement('br'));
         }
     }
 
-    // Función para agregar participante manualmente
+    // Función para agregar un participante manualmente
     function agregarParticipanteManual() {
-        var nombre = document.getElementById('nombre-participante').value.trim();
-        var dni = document.getElementById('dni').value.trim();
+        var nombre = document.getElementById('nombre-participante').value;
+        var dni = document.getElementById('dni').value;
 
-        // Validar que el DNI no esté repetido
-        var participantes = document.getElementById('lista-participantes').getElementsByTagName('li');
-        var dniRepetido = false;
-
-        for (var i = 0; i < participantes.length; i++) {
-            var dniExistente = participantes[i].textContent.split(' ').pop(); // Obtiene el último elemento (DNI)
-            if (dniExistente === dni) {
-                dniRepetido = true;
-                break;
-            }
+        if (nombre && dni) {
+            participantes.push({ nombre: nombre, dni: dni });
+            mostrarParticipantes();
+            document.getElementById('nombre-participante').value = '';
+            document.getElementById('dni').value = '';
+        } else {
+            alert("Por favor, ingrese nombre y DNI.");
         }
+    }
 
-        if (dniRepetido) {
-            alert('El DNI ingresado ya está registrado. Intente nuevamente.');
+    // Función para mostrar los participantes en la lista
+    function mostrarParticipantes() {
+        var lista = document.getElementById('lista-participantes');
+        lista.innerHTML = '';
+
+        participantes.forEach(function(participante, index) {
+            var li = document.createElement('li');
+            li.textContent = (index + 1) + ". " + participante.nombre + " (DNI: " + participante.dni + ")";
+            lista.appendChild(li);
+        });
+    }
+
+    // Función para realizar el sorteo
+    function realizarSorteo() {
+        if (participantes.length === 0) {
+            alert("No hay participantes para realizar el sorteo.");
             return;
         }
 
-        // Crear nuevo elemento de lista con el nombre y DNI del participante
-        var nuevoParticipante = document.createElement('li');
-        nuevoParticipante.textContent = nombre + ' ' + dni;
+        var cantidadGanadores = parseInt(document.getElementById('cantidad-ganadores').value);
+        if (cantidadGanadores > participantes.length) {
+            alert("No hay suficientes participantes.");
+            return;
+        }
 
-        // Crear el botón de eliminar
-        var botonEliminar = document.createElement('button');
-        botonEliminar.textContent = '❌';
-        botonEliminar.addEventListener('click', function() {
-            eliminarParticipante(nuevoParticipante);
-        });
-
-        // Añadir el botón al nuevo participante
-        nuevoParticipante.appendChild(botonEliminar);
-        document.getElementById('lista-participantes').appendChild(nuevoParticipante);
-
-        // Limpiar campos después de agregar participante
-        document.getElementById('nombre-participante').value = '';
-        document.getElementById('dni').value = '';
+        var ganadores = seleccionarGanadores(cantidadGanadores);
+        mostrarGanadores(ganadores);
     }
 
-    // Función para eliminar un participante
-    function eliminarParticipante(participante) {
-        participante.remove(); // Elimina el elemento de la lista
+    // Función para seleccionar ganadores aleatorios
+    function seleccionarGanadores(cantidad) {
+        var ganadores = [];
+        var participantesCopy = [...participantes];
+
+        for (var i = 0; i < cantidad; i++) {
+            var ganadorIndex = Math.floor(Math.random() * participantesCopy.length);
+            ganadores.push(participantesCopy[ganadorIndex]);
+            participantesCopy.splice(ganadorIndex, 1);
+        }
+
+        return ganadores;
     }
 
+    // Función para mostrar los resultados del sorteo en el pop-up
+    function mostrarGanadores(ganadores) {
+        var resultadosContainer = document.getElementById('resultados-container');
+        resultadosContainer.innerHTML = '';
 
+        var premios = [];
+        var patrocinadores = [];
 
-
-
-    $(document).ready(function() {
-        // Manejar el botón de abrir QR
-        $('#abrir-qr').on('click', function() {
-            $('#overlay-qr').css('display', 'flex'); // Mostrar el overlay
-    
-            // Limpiar el QR previo
-            $('#qr-code').empty();
-            var qrcode = new QRCode(document.getElementById("qr-code"), {
-                text: 'URL', // URL 
-                width: 150,
-                height: 150,
-            });
+        premiosInputs.forEach(function(input, index) {
+            premios.push(input.value);
         });
-    
-        // Manejar el botón de cerrar QR
-        $('#cerrar-qr').on('click', function() {
-            $('#overlay-qr').css('display', 'none'); // Ocultar el overlay
+
+        patrocinadoresInputs.forEach(function(input, index) {
+            patrocinadores.push(input.value);
         });
-    });
-    
 
+        ganadores.forEach(function(ganador, index) {
+            var ganadorDiv = document.createElement('div');
+            var premio = premios[index] || "Premio No Definido";
+            var patrocinador = patrocinadores[index] || "Patrocinador No Definido";
+            ganadorDiv.textContent = (index + 1) + ". " + ganador.nombre + " - " + premio + " (Patrocinado por: " + patrocinador + ")";
+            resultadosContainer.appendChild(ganadorDiv);
+        });
 
-
-
-
-
-
+        // Mostrar el pop-up
+        document.getElementById('resultado-sorteo').style.display = 'flex';
+    }
 });
