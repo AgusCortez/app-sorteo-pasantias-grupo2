@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App sorteo UnderCode 2</title>
+    <title>App Sorteo UnderCode 2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="./css/index.css">
@@ -30,25 +30,21 @@
             <div id="overlay-qr" class="overlay" style="display: none;">
                 <div class="overlay-content">
                     <h3>Escanea el QR para participar del evento de hoy</h3>
-                    <div id="qr-code"></div> <!-- Contenedor para el QR usando div -->
-                    <button class="boton" id="cerrar-qr">❌</button>
+                    <div id="qr-code"></div> <!-- Contenedor para el QR -->
+                    <button id="cerrar-popup-qr">Cerrar QR</button>
                 </div>
             </div>
         </div>
-
         
-        
-
         <div id="lista" class="container-secundario">
             <h3 id="evento-title">Evento</h3>
             <h4>Lista de Participantes</h4>
-            <ul class="tabla" >
+            <ul class="tabla">
                 <li id="lista-participantes"></li>
             </ul> 
         </div>
 
         <div id="premios" class="container-secundario">
-            
             <div class="cant-ganadores">
                 <h3>Cantidad Ganadores</h3>  
                 <input class="input-cantidad-ganadores" type="number" name="cantidadGanadores" id="cantidad-ganadores" min="1" value="1">    
@@ -72,18 +68,26 @@
         <br>
 
         <div id="btn-sorteo" class="btn-sorteo">
-            <button>Realizar Sorteo</button>
+            <button id="btn-realizar-sorteo">Realizar Sorteo</button>
         </div>
+
+        <!-- Pop-up dentro de la página -->
+        <div id="resultado-sorteo" class="popup">
+            <div class="popup-content">
+                <h3>Resultado del Sorteo</h3>
+                <div id="resultados-container"></div> <!-- Aquí se mostrarán los ganadores y patrocinadores -->
+                <button class="boton" id="cerrar-popup">Cerrar</button>
+            </div>
+        </div>
+
+        <footer style="text-align: center;">
+            <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
+        </footer>
     </div>
 
-    <footer style="text-align: center;">
-        <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
-    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://rawgit.com/davidshimjs/qrcodejs/master/qrcode.min.js"></script>
-<script src="./js/index.js"></script>
-
-    
 </body>
 </html>
