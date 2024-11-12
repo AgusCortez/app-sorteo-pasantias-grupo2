@@ -1,93 +1,115 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Sorteo UnderCode 2</title>
+    <title>App sorteo UnderCode 2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
 </head>
 
 <body>
-    <div class="container-principal">
-        <header class="titulo">
-            <h3>Bienvenidos a la Sección de Sorteos de UnderCode</h3>
-            <img style="width: 200px;" src="./Img/logo1.png" alt="Logo UnderCode">
-            <h1>App Sorteos de Eventos 2</h1>
-        </header>
-
-        <div id="seccion-nombre" class="container-secundario">
-            <h1 class="titulo">Nombre del Evento</h1>
-            <form id="evento-form">
-                <input class="input" type="text" id="nombre-evento" placeholder="Escribe el nombre del evento">
-                <button class="boton" type="submit" id="btn-ingresar-evento">Ingresar Evento</button>
-            </form>
-        </div>
-
-        <div id="qr-code-container" class="container-secundario">
-            <button class="boton" id="abrir-qr">Abrir QR</button>
-            <div id="overlay-qr" class="overlay" style="display: none;">
-                <div class="overlay-content">
-                    <h3>Escanea el QR para participar del evento de hoy</h3>
-                    <div id="qr-code"></div> <!-- Contenedor para el QR -->
-                    <button id="cerrar-popup-qr">Cerrar QR</button>
-                </div>
-            </div>
-        </div>
+    <div class="container-principal" id="container-principal">
+    <header class="titulo"> 
+        <img style="width: 200px;" src="./Img/logo1.png" >
         
-        <div id="lista" class="container-secundario">
-            <h3 id="evento-title">Evento</h3>
-            <h4>Lista de Participantes</h4>
-            <ul class="tabla">
-                <li id="lista-participantes"></li>
-            </ul> 
-        </div>
+       
+    </header>
 
-        <div id="premios" class="container-secundario">
-            <div class="cant-ganadores">
-                <h3>Cantidad Ganadores</h3>  
-                <input class="input-cantidad-ganadores" type="number" name="cantidadGanadores" id="cantidad-ganadores" min="1" value="1">    
-            </div>
+    <div id="seccion-nombre" class="container-secundario">
+        <h1 class="titulo" style="color: gray;" id="titulo">Crear sorteo</h1>
+        <form>
             
-            <div class="premios-patrocinadores">
-                <div id="premios-container"></div>
-                <div id="patrocinadores-container"></div>
-            </div>
-            
-        </div>
-
-        <div id="seccion-participantes" class="container-secundario">    
-            <h3>Registro de Participantes Manual</h3>
-            <input class="input" type="text" id="nombre-participante" placeholder="Nombre y Apellido">
-            <br>
-            <input class="input" type="number" id="dni" placeholder="DNI">
-            <button class="boton" id="btn-agregar-participante">Agregar Participante</button>
-        </div>
-
-        <br>
-
-        <div id="btn-sorteo" class="btn-sorteo">
-            <button id="btn-realizar-sorteo">Realizar Sorteo</button>
-        </div>
-
-        <!-- Pop-up dentro de la página -->
-        <div id="resultado-sorteo" class="popup">
-            <div class="popup-content">
-                <h3>Resultado del Sorteo</h3>
-                <div id="resultados-container"></div> <!-- Aquí se mostrarán los ganadores y patrocinadores -->
-                <button class="boton" id="cerrar-popup">Cerrar</button>
-            </div>
-        </div>
-
-        <footer style="text-align: center;">
-            <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
-        </footer>
+            <input class="input" type="text" id="nombre-evento" style="padding-top: 5px; padding-bottom: 5px;" placeholder="Nombre del evento">
+        </form>
+        <h3 class="titulosSecundarios">Premios</h3>
+        <ul class="lista" id= "listaPremios" hidden></ul>
+        <select class="select" name="cantidadGanadores" style="margin: 10px;" id="cantidadGanadores" onchange="menuPremios()">
+            <option value="0"></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>   
+        <div id="contenedorPremios">
+        
+    </div>
+        <button class="boton" id="botonCrearEvento" onclick="crearEvento()">Crear Evento</button>
+        <button class="botonEliminar" disabled id="botonEliminarEvento" onclick="cuadroConfirmacionEliminarEvento()">Eliminar Evento</button>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="./js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    
+        
+
+
+    <div id="qr" class="container-secundario">
+        <button class="boton" id="botonCrearQR" disabled onclick="mostrarQR()">Abrir QR</button>
+        <div>
+            <div>
+                <div style="display: flex; flex-direction: column;" id="qrCode"></div> <!-- Contenedor para el QR -->
+                <div id="botonesQr" style="display: flex; justify-content: center;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="seccion-participantes" class="container-secundario">    
+        <h3 class="titulosSecundarios">Registrar participante</h3>
+        <input class="input" type="text" id="nombreParticipante" placeholder="Nombre y Apellido" disabled>
+        <input class="input" type="number" id="dniParticipante" placeholder="DNI" disabled>
+        <button class="boton" id="botonAgregarParticipante" disabled onclick="agregarParticipanteManual()">Agregar Participante</button>
+    </div>
+
+    <div class="container-secundario">
+        <div style="display: flex; align-items: center;">
+        <h4 class="titulosSecundarios">Lista de Participantes</h4>
+        <button  class="botonRecargar" onclick="mostrarListaParticipantes()"><img src="./img/logoRecargar.png" alt="logo recarga" style="width: 20px;"></button>
+        </div>
+        <ul class="lista" id="listaParticipantes">
+        </ul> 
+        
+    </div>
+
+
+    <div class="cuadroConfirmacion" id="cuadroConfirmacion"> <!--Ventana de confirmación para eliminar el evento-->
+    <div class="cuadroInterno" >
+        <strong>Esta seguro que desea eliminar el evento?</strong>
+        <p>Al aceptar se eliminarán los premios y datos de los participantes</p>
+    
+        <button class="botonEliminar" onclick="eliminarEvento()">Eliminar evento</button>
+        <button class="boton" onclick="ocultarCuadroConfirmacionEliminarEvento()">Cancelar</button>
+    </div>
+    </div>
+    
+    <div class="cuadroConfirmacion" id="cuadroGanadores"> <!--Ventana de ganadores del evento-->
+        <div class="cuadroInterno" >
+            <h2>Realizar Sorteo</h2>
+            <div id="contenedorGanadores">
+                
+            </div>
+            <div><button class="boton" onclick="elegirGanador()" id="botonSortear" >SORTEAR</button></div>
+            <div><button class="boton" id="botonDescargarResultados" hidden onclick="">Descargar resultados</button></div>
+            <div><button class="botonEliminar" id="botonFinalizarEvento" onclick="eliminarEvento()" hidden >Finalizar Evento</button>
+            <button class="botonEliminar" id="botonCancelar" onclick="cerrarCuadroRealizarSorteo()">Cancelar</button>
+        </div>
+            
+        </div>
+        </div>
+
+    <br>
+
+    <div  id="contenedorRealizarSorteo" class="">
+        <button class="boton" id="botonRealizarSorteo" onclick="cuadroRealizarSorteo()" disabled>Realizar Sorteo</button>
+    </div>
+</div>
+    <footer>
+        <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
+    </footer>
+
 
 </body>
 </html>
