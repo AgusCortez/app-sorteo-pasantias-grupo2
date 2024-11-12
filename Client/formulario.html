@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscripción a sorteo</title>
-    <link rel="stylesheet" href="./css/formulario.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./formulario.js"></script>
 </head>
+
 <body>
 
-    <div style="text-align: center;" class="">
+    <div style="text-align: center;" class="container-principal">
         <div class="">
             <img src="./Img/logo1.png" alt="logo" height="100 px">
             <h1>Sorteos UnderCode</h1>
-            <!-- Aca estaría bueno agregar el nombre del evento--> 
         </div>
-        <div class="">
+        
+        <div class="container-secundario" style="align-items: center;">
+            <div id="nombreEvento"></div>
+            
+            <div class="container-formulario">
             <label for="nombre-participante">Nombre y Apellido</label><br>
-            <input class="" type="text" name="nombre-participante" id="nombre-participante">
+            <input class="input" disabled type="text" name="nombre-participante" id="nombre-participante">
         </div>
-        <br>
-        <div class="">
+            <br>
+<div class="container-formulario">
             <label for="dni">Dni</label><br>
-            <input class="" type="text" name="dni" id="dni">
+            <input class="input" disabled type="number" name="dni" id="dni">
         </div>
-        <br>
-        <button class="" type="button" id="btn-agregar-participante">Registrarse</button>
+            
+            <div id="mensaje"></div>
+            <button class="boton" disabled type="button" onclick="agregarParticipante()" id="btn-agregar-participante">Registrarse</button>
+        </div>
     </div>
 
     <footer style="text-align: center;">
         <p>&copy; 2024 SorteApp. Todos los derechos reservados.</p>
     </footer>
 </body>
+
 </html>
