@@ -267,7 +267,7 @@ function mostrarQR(){
             return;
         }
         document.getElementById("qrCode").innerHTML = '<img src="' + url + '" alt= "qrCode">';
-        document.getElementById('botonesQr').innerHTML = '<button class= "botonEliminar" onclick= "cerrarQr()"> Cerrar</button> <button class= "boton" id= "botonMostrarLink" onclick= "mostrarLink()"> Mostrar link</button> <button class="boton" onclick="descargarQr()"><img src="../Img/iconoDescarga.png" alt= "Descargar" class= "botonDescargarQr"></button>';
+        document.getElementById('botonesQr').innerHTML = '<button class= "botonEliminar" onclick= "cerrarQr()"> Cerrar</button> <button class= "boton" id= "botonMostrarLink" onclick= "mostrarLink()"> Mostrar link</button> <button class="boton" onclick="descargarQr()"><img src="./Img/iconoDescarga.png" alt= "Descargar" class= "botonDescargarQr"></button>';
         localStorage.setItem("urlQR", url);
         habilitarInput(botonCrearQR);
     });
