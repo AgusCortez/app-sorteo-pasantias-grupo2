@@ -177,10 +177,9 @@ body {
   
   .botonRecargar{
     background-color: rgb(241, 241, 241);
-    border: transparent;
+    border: 1px black solid;
     height: 40px;
-    width: 40px;
-    margin-left: 10px;
+    width: 50px;
     border-radius: 5px;
   }
   .botonRecargar:hover{
@@ -206,4 +205,30 @@ body {
    margin: 10px;
    padding: 5px;
    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.664);
+  }
+
+  .contenedorBusqueda{
+    margin-left: 150px;
+    margin-right: 7px;
+    width: 50%;
+    border-radius: 5px;
+    height: 25px;
+    display: flex;
+    border: 1px black solid;
+    padding: 1px;
+  }
+  .inputBuscar{
+   border: 0px;
+   background-color: #f7f7f7;
+   width: 100%;
+  }
+ 
+
+  .botonBorrarBusqueda{
+    background-color: #f7f7f7;
+    border: 0px;
+  }
+  .botonBorrarBusqueda:hover{
+    background-color: #c7c7c7;
+    border: 0px;
   }

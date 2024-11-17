@@ -7,8 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="./css/index.css">
-    <script src="./js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
 
 </head>
 
@@ -61,13 +60,18 @@
         <h3 class="titulosSecundarios">Registrar participante</h3>
         <input class="input" type="text" id="nombreParticipante" placeholder="Nombre y Apellido" disabled>
         <input class="input" type="number" id="dniParticipante" placeholder="DNI" disabled>
+        
         <button class="boton" id="botonAgregarParticipante" disabled onclick="agregarParticipanteManual()">Agregar Participante</button>
     </div>
 
     <div class="container-secundario">
         <div style="display: flex; align-items: center;">
         <h4 class="titulosSecundarios">Lista de Participantes</h4>
-        <button  class="botonRecargar" onclick="mostrarListaParticipantes()"><img src="./img/logoRecargar.png" alt="logo recarga" style="width: 20px;"></button>
+        <button id="botonRecargar" class="botonRecargar" onclick="mostrarListaParticipantes()" disabled><img src="./img/logoRecargar.png" alt="logo recarga" style="width: 20px;"></button>
+        <div class="contenedorBusqueda">
+        <input class="inputBuscar" type="text" id="busqueda" placeholder="Buscar" disabled  ></input>
+        <button onclick="borrarBusqueda()" id="botonBorrarBusqueda" class="botonBorrarBusqueda" disabled>X</button>
+        </div>
         </div>
         <ul class="lista" id="listaParticipantes">
         </ul> 
@@ -112,4 +116,6 @@
 
 
 </body>
+<script src="./js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
 </html>

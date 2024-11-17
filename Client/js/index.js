@@ -41,6 +41,8 @@ window.onload = function() {
             document.getElementById("botonAgregarParticipante").disabled = false;
             document.getElementById("botonRealizarSorteo").disabled = false;
             document.getElementById("cantidadGanadores").hidden = true;
+            document.getElementById("busqueda").disabled = false;
+            document.getElementById("botonBorrarBusqueda").disabled = false;
             
             let participantesGuardados = localStorage.getItem("arrayParticipantes");
             if (participantesGuardados) {
@@ -48,7 +50,7 @@ window.onload = function() {
                 mostrarListaParticipantes();
             }
         }else{                                                          //Si no existe un evento creado
-
+            
             titulo.textContent = "Crear sorteo";
             titulo.style.color = "Gray";
             document.getElementById("botonEliminarEvento").disabled = true;
@@ -324,6 +326,8 @@ for(let i = 0; i < (numeroGanadores); i++){
     patrocinadores[i].disabled = false;
 }
 habilitarInput(botonCrearEvento);
+document.getElementById("botonBorrarBusqueda");
+document.getElementById("busqueda");
 deshabilitarInput(botonAgregarParticipante);
 deshabilitarInput(botonCrearQR);
 deshabilitarInput(botonRealizarSorteo);
@@ -450,3 +454,32 @@ function elegirGanador(){
 function descargarResultados(){
 
 }
+
+const inputBusqueda = document.getElementById("busqueda");
+
+inputBusqueda.addEventListener('input', () => {
+    var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes"))|| [];
+    var busqueda = document.getElementById("busqueda").value;
+    listaParticipantes  = document.getElementById("listaParticipantes");
+    mostrarListaParticipantes();
+    listaParticipantes.innerHTML = "";
+    arrayParticipantes.forEach((arrayParticipantes) => {
+        let nombre = arrayParticipantes.nombre.toLowerCase();
+        let dni = arrayParticipantes.dni;
+        if(nombre.includes(busqueda.toLowerCase()) || dni.includes(busqueda)){
+            let nuevoParticipante = document.createElement("li");
+
+        nuevoParticipante.innerHTML = `${nombre}  ${dni}  <button class="botonEliminarParticipante" onClick="eliminarParticipanteManual('${dni}', this)"> x </button>`;
+        listaParticipantes.appendChild(nuevoParticipante);
+        }else if(busqueda == ""){
+            mostrarListaParticipantes();
+        }
+    })
+    });
+
+    function borrarBusqueda(){
+        var busqueda = document.getElementById("busqueda")
+        busqueda.value = "";
+        mostrarListaParticipantes();
+    }
+
