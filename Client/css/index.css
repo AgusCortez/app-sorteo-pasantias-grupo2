@@ -19,6 +19,20 @@ body {
     border: 2px solid black;
     box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.33);
    }
+
+   .container-principal-historial{
+    margin: auto;
+    background-color: white;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.33);
+   }
+   
    .container-secundario{
     display: flex;
     background-color: white;
@@ -32,7 +46,7 @@ body {
   
   
    }
-  
+
    .container-formulario{
   display: flex;
   flex-direction: row;
@@ -217,6 +231,17 @@ body {
     border: 1px black solid;
     padding: 1px;
   }
+
+  .contenedorBusquedaHistorial{
+    align-items: right;
+    width: 50%;
+    border-radius: 5px;
+    height: 25px;
+    display: flex;
+    border: 1px black solid;
+    padding: 1px;
+  }
+
   .inputBuscar{
    border: 0px;
    background-color: #f7f7f7;
@@ -231,4 +256,10 @@ body {
   .botonBorrarBusqueda:hover{
     background-color: #c7c7c7;
     border: 0px;
+  }
+
+  .tablaHistorial{
+    
+      border-collapse: collapse;
+      width: 100%;
   }

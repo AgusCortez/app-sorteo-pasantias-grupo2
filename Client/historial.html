@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de sorteos</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./js/historial.js"></script>
+
+</head>
+<body>
+    <div class="container-principal-historial" id="container-principal">
+        <h1 class="titulo" id="titulo">Historial de sorteos</h1>
+        <div class="contenedorBusquedaHistorial">
+            <input class="inputBuscar" type="text" id="busqueda" placeholder="Buscar"></input>
+            <button onclick="borrarBusqueda()" id="botonBorrarBusqueda" class="botonBorrarBusqueda">X</button></div>
+        
+        </div>
+
+        <div style="margin-top: 10px;" class="container-principal-historial" id="container-principal">
+            <table id="tablaHistorial" class="tablaHistorial" border="3">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Nombre del Evento</th>
+                        <th>Premios y Patrocinadores</th>
+                        <th>Ganadores</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se insertarán las filas dinámicamente -->
+                </tbody>
+            </table>
+            </div>
+</body>
+</html>
