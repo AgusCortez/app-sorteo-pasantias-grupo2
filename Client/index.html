@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App sorteo UnderCode 2</title>
+    <title>Sorteos UnderCode 2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="./css/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 
 </head>
 
 <body>
     <div class="container-principal" id="container-principal">
+        <button style="align-self: end; max-width: 20%;" onclick="abrirHistorial()" class="boton">Historial de sorteos</button>
     <header class="titulo"> 
         <img style="width: 200px;" src="./Img/logo1.png" >
+   
         
        
     </header>
@@ -28,7 +32,7 @@
         <h3 class="titulosSecundarios">Premios</h3>
         <ul class="lista" id= "listaPremios" hidden></ul>
         <select class="select" name="cantidadGanadores" style="margin: 10px;" id="cantidadGanadores" onchange="menuPremios()">
-            <option value="0"></option>
+            <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -96,7 +100,7 @@
                 
             </div>
             <div><button class="boton" onclick="elegirGanador()" id="botonSortear" >SORTEAR</button></div>
-            <div><button class="boton" id="botonDescargarResultados" hidden onclick="">Descargar resultados</button></div>
+            <div><button class="boton" id="botonDescargarResultados" hidden onclick="descargarResultados()">Descargar resultados</button></div>
             <div><button class="botonEliminar" id="botonFinalizarEvento" onclick="eliminarEvento()" hidden >Finalizar Evento</button>
             <button class="botonEliminar" id="botonCancelar" onclick="cerrarCuadroRealizarSorteo()">Cancelar</button>
         </div>

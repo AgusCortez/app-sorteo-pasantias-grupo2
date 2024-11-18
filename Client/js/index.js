@@ -452,7 +452,23 @@ function elegirGanador(){
 }
 
 function descargarResultados(){
+    var nombreEvento = localStorage.getItem("nombreEvento");
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
+    // Agregar contenido al PDF
+    doc.setFontSize(20);
+    doc.text(`${nombreEvento}`, 10, 10);
+    doc.text(`____________________________________`, 10, 12);
+    doc.setFontSize(12);
+    var ganadores = JSON.parse(localStorage.getItem("arrayGanadores"));
+    var premios = JSON.parse(localStorage.getItem("arrayPremios"));
+    arrayPremios.forEach((premio, index) => {
+    doc.text(` ${index + 1}° Premio: ${premio.Premio} | Patrocinador: ${premio.Patrocinador} | Ganador: ${ganadores[index].nombre} | DNI: ${ganadores[index].dni}`, 10, (20+(index*10)));
+  
+    });
+
+    doc.save(`Ganadores-${nombreEvento}.pdf`);
 }
 
 const inputBusqueda = document.getElementById("busqueda");
@@ -483,3 +499,6 @@ inputBusqueda.addEventListener('input', () => {
         mostrarListaParticipantes();
     }
 
+    function abrirHistorial(){
+        window.open('./historial.html', '_blank');
+    }
