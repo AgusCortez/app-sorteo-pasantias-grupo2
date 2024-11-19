@@ -1,4 +1,3 @@
-// historial.js
 const express = require('express');
 const { pool } = require('./db');
 const cors = require('cors');
