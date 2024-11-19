@@ -15,9 +15,9 @@
             <input class="inputBuscar" type="text" id="busqueda" placeholder="Buscar en el historial" oninput="filtrarHistorial()" />
             <button class="botonBorrarBusqueda" onclick="borrarBusqueda()">X</button>
         </div>
-        
+        <br>
         <!-- Tabla donde se mostrarán los datos -->
-        <table id="tablaHistorial" border="3">
+        <table id="tablaHistorial" border="3" style="text-align: center;">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -82,8 +82,8 @@
                 row.insertCell(2).innerText = sorteo.cantidad_ganadores;
                 row.insertCell(3).innerText = fechaFormateada; // Insertamos la fecha formateada
                 row.insertCell(4).innerText = sorteo.hora;
-                row.insertCell(5).innerText = sorteo.premio_num + ' - ' + sorteo.premio_producto;
-                row.insertCell(6).innerText = sorteo.patrocinador_numero + ' - ' + sorteo.patrocinador_nombre;
+                row.insertCell(5).innerText = sorteo.patrocinador_nombre;
+                row.insertCell(6).innerText = sorteo.premio_producto;
                 row.insertCell(7).innerText = sorteo.nya_ganador;
                 row.insertCell(8).innerText = sorteo.doc_ganador;
             });

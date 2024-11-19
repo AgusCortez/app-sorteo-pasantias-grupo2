@@ -375,7 +375,7 @@ function guardarTodosLosParticipantes() {
 }
 
 function cuadroRealizarSorteo(){
-    guardarTodosLosParticipantes();
+    
     var arrayPremios = JSON.parse(localStorage.getItem("arrayPremios"))|| [];
     var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes"))|| [];
     
@@ -409,6 +409,7 @@ function cerrarCuadroRealizarSorteo(){
 }
 
 function elegirGanador(){
+    guardarTodosLosParticipantes();
     var arrayPremios = JSON.parse(localStorage.getItem("arrayPremios"))|| [];
     var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes"))|| [];
 
@@ -498,3 +499,47 @@ inputBusqueda.addEventListener('input', () => {
         
     }
     
+
+   
+        async function guardarHistorial(){
+        const nombre_evento = localStorage.getItem("nombreEvento");
+        const cant_ganadores = localStorage.getItem("numeroGanadores");
+        const fecha = localStorage.getItem("fechaSorteo");
+        const [day, month, year] = fecha.split('/'); // Divide la fecha en partes
+        const fechaFormateada = `${year}-${month}-${day}`;
+        const hora = localStorage.getItem("horaSorteo");
+        const listadoPremios = JSON.parse(localStorage.getItem("arrayPremios"));
+        const ganadores_sorteo = JSON.parse(localStorage.getItem("arrayGanadores"));
+        const doc_ganadores = ganadores_sorteo.map(ganador => ganador.dni);
+
+        const datosSorteo = {
+            nombre_evento,
+            cant_ganadores,
+            fechaFormateada,
+            hora,
+            listadoPremios: listadoPremios.map((premio, index) => `${index+1}° Premio: ${premio.Premio}`).join('\n'),
+            listadoPatrocinadores: listadoPremios.map(patrocinador => `${patrocinador.Patrocinador}`).join('\n'),
+            nya_ganador: ganadores_sorteo.map(ganador => `${ganador.nombre}`).join('\n'),
+            doc_ganadores: ganadores_sorteo.map(doc => `${doc.dni}`).join('\n'),
+            
+            
+        };
+        try {
+            // Enviar la solicitud POST al servidor
+            const response = await fetch('http://localhost:3002/sorteos_duplicate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datosSorteo)
+            });
+    
+            // Verificar si la respuesta fue exitosa
+            if (!response.ok) {
+                alert('Hubo un error al agregar el sorteo');
+            }
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            alert('Hubo un error al intentar agregar el sorteo');
+        }
+    };
