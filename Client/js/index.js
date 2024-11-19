@@ -348,8 +348,34 @@ function cuadroConfirmacionEliminarEvento(){
      cuadroConfirmacion.style.display = "none";
  }
 
+function guardarTodosLosParticipantes() {
+    var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes")) || [];
+    
+    arrayParticipantes.forEach(participante => {
+        fetch('http://localhost:3001/guardar-participante', { // Cambia el puerto si es necesario
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dni: participante.dni,
+                nombreyapellido: participante.nombre
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al guardar participante');
+            }
+            console.log(`Participante ${participante.nombre} guardado en la base de datos.`);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+}
 
 function cuadroRealizarSorteo(){
+    guardarTodosLosParticipantes();
     var arrayPremios = JSON.parse(localStorage.getItem("arrayPremios"))|| [];
     var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes"))|| [];
     
@@ -382,34 +408,7 @@ function cerrarCuadroRealizarSorteo(){
     document.getElementById("contenedorGanadores").innerHTML = "";
 }
 
-function guardarTodosLosParticipantes() {
-    var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes")) || [];
-    
-    arrayParticipantes.forEach(participante => {
-        fetch('http://localhost:3001/guardar-participante', { // Cambia el puerto si es necesario
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                dni: participante.dni,
-                nombreyapellido: participante.nombre
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al guardar participante');
-            }
-            console.log(`Participante ${participante.nombre} guardado en la base de datos.`);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-}
-
 function elegirGanador(){
-    guardarTodosLosParticipantes();
     var arrayPremios = JSON.parse(localStorage.getItem("arrayPremios"))|| [];
     var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes"))|| [];
 
