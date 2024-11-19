@@ -1,4 +1,4 @@
-var  numeroGanadores, titulo, premios, patrocinadores, selectGanadores, nombreParticipante, dniParticipante, listaParticipantes, botonCrearEvento, botonEliminarEvento, botonCrearQR, botonAgregarParticipante, botonRealizarSorteo, listaPremios;
+var fechaSorteo, horaSorteo, numeroGanadores, titulo, premios, patrocinadores, selectGanadores, nombreParticipante, dniParticipante, listaParticipantes, botonCrearEvento, botonEliminarEvento, botonCrearQR, botonAgregarParticipante, botonRealizarSorteo, listaPremios;
 var arrayPremios = [];
 var arrayParticipantes = [];
 var arrayPatrocinadores = [];
@@ -6,21 +6,22 @@ var arrayGanadores = [];
 var nombreEvento;
 var eventoCreado = false;
 var urlFormulario = "http://127.0.0.1:5500/Client/formulario.html";
+const now = new Date();
 
 
 window.onload = function() {
-    
+    document.getElementById("fecha").textContent = now.toLocaleDateString('es-ES');
     
         if(JSON.parse(localStorage.getItem("eventoCreado")) === true){  //Si existe un evento creado
             habilitarInput(botonEliminarEvento);
             titulo = document.getElementById("titulo");
+            
             nombreEvento = localStorage.getItem("nombreEvento");
             titulo.textContent = nombreEvento;
             titulo.style.color = "Black";
             localStorage.getItem("numeroGanadores");
-
             localStorage.setItem("urlFormulario", urlFormulario);
-             
+            
             listaPremios = document.getElementById("listaPremios");
             listaPremios.hidden = false;
             arrayPremios = JSON.parse(localStorage.getItem("arrayPremios"));
@@ -299,11 +300,6 @@ linkImagen.click();
 }
 
 
-
-
-
-
-
 function eliminarEvento(){
     location.reload();
     localStorage.clear();
@@ -340,7 +336,6 @@ document.getElementById("listaParticipantes").innerHTML = ("");
 cerrarQr();
 ocultarCuadroConfirmacionEliminarEvento();
 
-
 }
 
 function cuadroConfirmacionEliminarEvento(){
@@ -357,9 +352,6 @@ function cuadroConfirmacionEliminarEvento(){
 function cuadroRealizarSorteo(){
     var arrayPremios = JSON.parse(localStorage.getItem("arrayPremios"))|| [];
     var arrayParticipantes = JSON.parse(localStorage.getItem("arrayParticipantes"))|| [];
-    
-
-    
     
     if(arrayParticipantes.length < arrayPremios.length){
  
@@ -383,8 +375,6 @@ function cuadroRealizarSorteo(){
 
     }
    
-
-    
 }
 
 function cerrarCuadroRealizarSorteo(){
@@ -443,11 +433,11 @@ function elegirGanador(){
     }
     }
     localStorage.setItem("arrayGanadores", JSON.stringify(arrayGanadores));
+    fechaYHora();
     document.getElementById("botonSortear").hidden = true;
     document.getElementById("botonCancelar").hidden = true;
     document.getElementById("botonDescargarResultados").hidden = false;
     document.getElementById("botonFinalizarEvento").hidden = false;
-    
 
 }
 
@@ -455,8 +445,6 @@ function descargarResultados(){
     var nombreEvento = localStorage.getItem("nombreEvento");
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-
-    // Agregar contenido al PDF
     doc.setFontSize(20);
     doc.text(`${nombreEvento}`, 10, 10);
     doc.text(`____________________________________`, 10, 12);
@@ -465,7 +453,6 @@ function descargarResultados(){
     var premios = JSON.parse(localStorage.getItem("arrayPremios"));
     arrayPremios.forEach((premio, index) => {
     doc.text(` ${index + 1}° Premio: ${premio.Premio} | Patrocinador: ${premio.Patrocinador} | Ganador: ${ganadores[index].nombre} | DNI: ${ganadores[index].dni}`, 10, (20+(index*10)));
-  
     });
 
     doc.save(`Ganadores-${nombreEvento}.pdf`);
@@ -502,3 +489,13 @@ inputBusqueda.addEventListener('input', () => {
     function abrirHistorial(){
         window.open('./historial.html', '_blank');
     }
+
+    function fechaYHora(){
+       
+        fechaSorteo = now.toLocaleDateString('es-ES');
+        horaSorteo = now.toLocaleTimeString('es-ES');
+        localStorage.setItem("fechaSorteo", fechaSorteo);
+        localStorage.setItem("horaSorteo", horaSorteo);
+        
+    }
+    
