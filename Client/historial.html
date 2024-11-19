@@ -1,39 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de sorteos</title>
-    <link rel="stylesheet" href="./css/index.css">
-    <script src="./js/historial.js"></script>
-
+    <title>Historial de Sorteos</title>
+    <link rel="stylesheet" href="./css/index.css"> <!-- Asegúrate de que el archivo CSS esté correctamente vinculado -->
 </head>
 <body>
-    <div class="container-principal-historial" id="container-principal">
-        <h1 class="titulo" id="titulo">Historial de sorteos</h1>
-        <div class="contenedorBusquedaHistorial">
-            <input class="inputBuscar" type="text" id="busqueda" placeholder="Buscar"></input>
-            <button onclick="borrarBusqueda()" id="botonBorrarBusqueda" class="botonBorrarBusqueda">X</button></div>
+    <div class="container-principal-historial">
+        <h1 class="titulo">Historial de sorteos</h1>
         
+        <!-- Relacionamos la búsqueda con el estilo CSS proporcionado -->
+        <div class="contenedorBusquedaHistorial">
+            <input class="inputBuscar" type="text" id="busqueda" placeholder="Buscar en el historial" oninput="filtrarHistorial()" />
+            <button class="botonBorrarBusqueda" onclick="borrarBusqueda()">X</button>
         </div>
+        
+        <!-- Tabla donde se mostrarán los datos -->
+        <table id="tablaHistorial" border="3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Evento</th>
+                    <th>Cantidad de Ganadores</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Número de Premio y Producto</th>
+                    <th>Número y Nombre de Patrocinador</th>
+                    <th>Nombre y Apellido del Ganador</th>
+                    <th>Documento del Ganador</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se van a insertar las filas dinámicamente -->
+            </tbody>
+        </table>
+    </div>
 
-        <div style="margin-top: 10px;" class="container-principal-historial" id="container-principal">
-            <table id="tablaHistorial" class="tablaHistorial" border="3">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Nombre del Evento</th>
-                        <th>Premios y Patrocinadores</th>
-                        <th>Ganadores</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se insertarán las filas dinámicamente -->
-                </tbody>
-            </table>
-            </div>
+    <script>
+        let historialData = [];  // Acá guardamos los datos del historial que traemos desde el servidor
+
+        // Esta función carga los datos del historial desde el backend
+        async function cargarHistorial() {
+            try {
+                const response = await fetch('http://localhost:3002/historial');
+                const data = await response.json(); // Parseamos los datos JSON que nos llega
+
+                historialData = data;  // Guardamos esos datos para después filtrarlos
+
+                mostrarHistorial(data);  // Mostramos todos los datos en la tabla
+            } catch (error) {
+                console.error('Error al cargar el historial:', error);
+            }
+        }
+
+        // Función para formatear la fecha al formato yyyy/mm/dd
+        function formatearFecha(fecha) {
+            let year = fecha.getFullYear();
+            let month = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Añadir 1 al mes porque empieza desde 0
+            let day = fecha.getDate().toString().padStart(2, '0'); // Aseguramos que el día tenga dos dígitos
+
+            return `${year}/${month}/${day}`;
+        }
+
+        // Esta función muestra los datos en la tabla
+        function mostrarHistorial(data) {
+            const tabla = document.getElementById('tablaHistorial').getElementsByTagName('tbody')[0];
+
+            // Limpiamos cualquier fila que haya quedado de la búsqueda anterior
+            tabla.innerHTML = '';
+
+            // Recorremos los datos y creamos una fila por cada sorteo
+            data.forEach(sorteo => {
+                const row = tabla.insertRow(); // Creamos una nueva fila
+
+                // Formateamos la fecha antes de mostrarla
+                const fechaFormateada = formatearFecha(new Date(sorteo.fecha));
+
+                row.insertCell(0).innerText = sorteo.id;
+                row.insertCell(1).innerText = sorteo.nombre_evento;
+                row.insertCell(2).innerText = sorteo.cantidad_ganadores;
+                row.insertCell(3).innerText = fechaFormateada; // Insertamos la fecha formateada
+                row.insertCell(4).innerText = sorteo.hora;
+                row.insertCell(5).innerText = sorteo.premio_num + ' - ' + sorteo.premio_producto;
+                row.insertCell(6).innerText = sorteo.patrocinador_numero + ' - ' + sorteo.patrocinador_nombre;
+                row.insertCell(7).innerText = sorteo.nya_ganador;
+                row.insertCell(8).innerText = sorteo.doc_ganador;
+            });
+        }
+
+        // Esta función filtra los datos según lo que se escriba en el input de búsqueda
+        function filtrarHistorial() {
+            const searchTerm = document.getElementById('busqueda').value.toLowerCase(); // Convertimos a minúscula
+
+            const filteredData = historialData.filter(sorteo => {
+                return (
+                    sorteo.id.toString().includes(searchTerm) || 
+                    sorteo.nombre_evento.toLowerCase().includes(searchTerm) ||
+                    sorteo.cantidad_ganadores.toString().includes(searchTerm) ||
+                    sorteo.fecha.toLowerCase().includes(searchTerm) ||
+                    sorteo.hora.toLowerCase().includes(searchTerm) ||
+                    (sorteo.premio_num + ' - ' + sorteo.premio_producto).toLowerCase().includes(searchTerm) ||
+                    (sorteo.patrocinador_numero + ' - ' + sorteo.patrocinador_nombre).toLowerCase().includes(searchTerm) ||
+                    sorteo.nya_ganador.toLowerCase().includes(searchTerm) ||
+                    sorteo.doc_ganador.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            mostrarHistorial(filteredData); // Mostramos los resultados filtrados en la tabla
+        }
+
+        // Función para borrar la búsqueda
+        function borrarBusqueda() {
+            document.getElementById('busqueda').value = ''; // Limpiar el input
+            filtrarHistorial(); // Mostrar todos los datos de nuevo
+        }
+
+        // Cuando la página cargue, cargamos los datos del historial
+        window.onload = cargarHistorial;
+    </script>
 </body>
 </html>
